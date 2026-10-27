@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import { site } from '../site';
+
+// The Blog link appears once there is at least one published post.
+const published = (await getCollection('blog', ({ data }) => !data.draft)).length > 0;
+---
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <img src="/brand/quinn-lockup-horizontal.svg" alt={site.name} width="220" height="31" />
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav id="site-nav" class="site-nav" aria-label="Site">
+      <a href="/#about">About</a>
+      <a href="/#what-we-do">What we do</a>
+      <a href="/#team">Team</a>
+      {published && <a href="/blog/">Blog</a>}
+      <a href="/newsletter/">Newsletter</a>
+      <a href="/#get-involved">Get involved</a>
+      <a class="btn" href="/#newsletter">Subscribe</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // The only JavaScript on the site: the phone menu.
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('is-open', !open);
+    });
+    nav.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      }
+    });
+  }
+</script>

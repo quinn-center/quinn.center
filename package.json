@@ -1,0 +1,20 @@
+{
+  "name": "quinn.center",
+  "private": true,
+  "type": "module",
+  "description": "The Quinn Center for Animal Welfare Innovation website",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.2"
+  }
+}

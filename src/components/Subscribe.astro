@@ -1,0 +1,25 @@
+---
+import { site } from '../site';
+
+interface Props {
+  /** 'purple' on the home band (white controls), 'cream' on a cream page. */
+  tone?: 'purple' | 'cream';
+}
+const { tone = 'purple' } = Astro.props;
+const username = site.newsletter.buttondown;
+const buttonClass = tone === 'purple' ? 'btn btn-reversed' : 'btn';
+const inputId = `subscribe-email-${tone}`;
+---
+{username ? (
+  <form class="subscribe" action={`https://buttondown.com/api/emails/embed-subscribe/${username}`} method="post">
+    <label class="sr-only" for={inputId}>Email address</label>
+    <input class="input" id={inputId} name="email" type="email" placeholder="you@example.org" required autocomplete="email" />
+    <button class={buttonClass} type="submit">Subscribe</button>
+    <p class="note">A few issues a year. Unsubscribe any time.</p>
+  </form>
+) : (
+  <p class="subscribe">
+    <a class={buttonClass} href={`mailto:${site.email}?subject=${encodeURIComponent('Subscribe to the Quinn Center newsletter')}`}>Subscribe by email</a>
+    <span class="note">A few issues a year. Unsubscribe any time.</span>
+  </p>
+)}

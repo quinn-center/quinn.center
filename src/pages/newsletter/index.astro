@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import Subscribe from '../../components/Subscribe.astro';
+import { allPosts } from '../../posts';
+
+const posts = (await allPosts()).filter((post) => post.kind === 'newsletter');
+---
+<Base title="Newsletter" description="The Quinn Center newsletter: updates on our projects, research, and community, a few times a year.">
+  <div class="container page-head">
+    <h1>Newsletter</h1>
+    <p class="lede">Updates on our projects, research, and community, a few times a year. Every issue is published here as well as sent by email.</p>
+  </div>
+  <div class="container page-body">
+    <div class="band-cream" style="margin-bottom: 2.5rem;">
+      <Subscribe tone="cream" />
+    </div>
+    {posts.length > 0 ? (
+      <ul class="post-list">
+        {posts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    ) : (
+      <p class="muted">The first issue is on its way. Subscribe above to receive it.</p>
+    )}
+  </div>
+</Base>

@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostCard from '../../components/PostCard.astro';
+import { allPosts } from '../../posts';
+
+const posts = (await allPosts()).filter((post) => post.kind === 'blog');
+---
+<Base title="Blog" description="Writing from the Quinn Center on animal welfare, research, technology, and where we stand.">
+  <div class="container page-head">
+    <h1>Blog</h1>
+    <p class="lede">Writing on animal welfare, research, technology, and where we stand. <a href="/newsletter/">The newsletter</a> carries project updates.</p>
+  </div>
+  <div class="container page-body">
+    {posts.length > 0 ? (
+      <ul class="post-list">
+        {posts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    ) : (
+      <p class="muted">Nothing published yet. Subscribe to the <a href="/newsletter/">newsletter</a> or follow the <a href="/feed.xml">feed</a> to hear when there is.</p>
+    )}
+  </div>
+</Base>

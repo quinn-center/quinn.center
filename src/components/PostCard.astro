@@ -1,0 +1,16 @@
+---
+import { formatDate, type Post } from '../site';
+
+interface Props {
+  post: Post;
+}
+const { post } = Astro.props;
+---
+<article class="post card">
+  <div class="post-meta">
+    <span class={`badge${post.kind === 'newsletter' ? ' badge-newsletter' : ''}`}>{post.kind === 'newsletter' ? 'Newsletter' : 'Blog'}</span>
+    <time class="muted" datetime={post.date.toISOString().slice(0, 10)}>{formatDate(post.date)}</time>
+  </div>
+  <h3><a href={post.url}>{post.title}</a></h3>
+  <p>{post.description}</p>
+</article>

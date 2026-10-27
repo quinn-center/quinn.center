@@ -1,0 +1,154 @@
+---
+import Base from '../layouts/Base.astro';
+import Subscribe from '../components/Subscribe.astro';
+import PostCard from '../components/PostCard.astro';
+import { site } from '../site';
+import { allPosts } from '../posts';
+import team from '../data/team.json';
+
+const latest = (await allPosts()).slice(0, 3);
+const initials = (name: string) => name.split(/\s+/).map((part) => part[0] ?? '').join('').slice(0, 2).toUpperCase();
+---
+<Base>
+  <section class="hero band band-purple" id="hero" aria-labelledby="hero-title">
+    <div class="hero-marks" aria-hidden="true">
+      <img class="mark-dog" src="/brand/quinn-dog.svg" alt="" />
+      <img class="mark-cat" src="/brand/quinn-cat.svg" alt="" />
+    </div>
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <h1 id="hero-title">{site.fullName}</h1>
+          <p class="lede">A hub for research, innovation, and collaboration. We bring together experts in technology, community services, and animal welfare to solve the toughest challenges facing the human-animal bond.</p>
+          <div class="hero-actions">
+            <a class="btn btn-reversed" href="#newsletter">Subscribe to the newsletter</a>
+            <a class="btn btn-reversed-outline" href="#get-involved">Get involved</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" aria-label="About the Quinn Center">
+    <div class="band band-white">
+      <div class="container">
+        <h2 class="text-center">What drives us</h2>
+        <p class="belief">A belief that animal and community welfare can be smarter, more humane, and more effective when grounded in rigorous research, open collaboration, and empathy. We are stronger together.</p>
+      </div>
+    </div>
+    <div class="band band-cream">
+      <div class="container about-grid">
+        <div>
+          <h2>Who we are</h2>
+          <p>The Quinn Center is a nonprofit organization founded to address interconnected challenges in animal welfare through research, technology, and community building.</p>
+          <p>Our mission rests on a simple belief: the people working in animal welfare are passionate, capable, and dedicated. What they lack are tools worthy of their efforts.</p>
+        </div>
+        <div class="about-mark">
+          <img src="/brand/quinn-center.svg" alt="The Quinn Center mark: a dog, a cat and a bird joined by circuit lines" width="280" height="231" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-white" id="what-we-do">
+    <div class="container">
+      <div class="section-head">
+        <h2>What we do</h2>
+        <p class="lede">By focusing on evidence, collaboration, accessibility, and quality, we support research, build useful tools, and forge community.</p>
+      </div>
+      <div class="grid pillars">
+        <article class="card pillar">
+          <img src="/brand/quinn-dog.svg" alt="" width="37" height="48" />
+          <h3>Research</h3>
+          <p>Both qualitative and quantitative. We work with partners to gather data, analyze findings, write papers, release white papers, and create turn-key models for implementation.</p>
+        </article>
+        <article class="card pillar">
+          <img src="/brand/quinn-bird.svg" alt="" width="43" height="48" />
+          <h3>Technology</h3>
+          <p>We believe technology should free people to do what we are best at: empathy, passion, and relationships. We can automate the other stuff.</p>
+        </article>
+        <article class="card pillar">
+          <img src="/brand/quinn-cat.svg" alt="" width="37" height="48" />
+          <h3>Community</h3>
+          <p>Be part of the team through our Discord server, periodic newsletters, and, as projects spin up, working on one with us.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-cream" id="team">
+    <div class="container">
+      <div class="section-head">
+        <h2>Leadership</h2>
+        <p class="lede">The board and staff building the Quinn Center.</p>
+      </div>
+      <div class="grid team">
+        {team.map((person) => (
+          <article class="person card">
+            <div class="avatar" aria-hidden="true">{initials(person.name)}</div>
+            <div>
+              <h3>{person.name}</h3>
+              <p class="role">{person.role}</p>
+              {person.bio && <p class="bio">{person.bio}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {latest.length > 0 && (
+    <section class="band band-white" id="latest">
+      <div class="container">
+        <div class="latest-head">
+          <h2>Latest</h2>
+        </div>
+        <div class="grid posts">
+          {latest.map((post) => <PostCard post={post} />)}
+        </div>
+        <p class="posts-more"><a href="/blog/">All posts</a></p>
+      </div>
+    </section>
+  )}
+
+  <section class="band band-purple" id="newsletter">
+    <div class="container newsletter-grid">
+      <div>
+        <h2>Newsletter</h2>
+        <p class="lede">Updates on our projects, research, and community, a few times a year.</p>
+      </div>
+      <Subscribe tone="purple" />
+    </div>
+  </section>
+
+  <section class="band band-cream" id="get-involved">
+    <div class="container">
+      <h2>How you can get involved</h2>
+      <p>We are building this independent research center slowly from the ground up. For now, you can be involved by getting in touch via email, joining our Discord server, or visiting our GitHub organization. As projects spin up, these will be the hubs of collaboration.</p>
+      <p class="links">
+        <a class="btn" href={`mailto:${site.email}`}>Email us</a>
+        <a class="btn btn-secondary" href={site.discord} rel="noopener">Join the Discord</a>
+        <a class="btn btn-secondary" href={site.github} rel="noopener">GitHub</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="band band-white" id="quinn">
+    <div class="container quinn-grid">
+      {site.quinnPhoto ? (
+        <figure class="quinn-figure has-photo">
+          <img src={site.quinnPhoto} alt="Quinn, a dog, looking at the camera" />
+        </figure>
+      ) : (
+        <figure class="quinn-figure">
+          <img src="/brand/quinn-dog.svg" alt="" width="153" height="200" />
+        </figure>
+      )}
+      <div>
+        <h2>Quinn, our namesake</h2>
+        <p>This loving girl is an alumna of the Humane Rescue Alliance in Washington, D.C., where many of our founders helped her with her rehabilitation after some significant challenges. Her resilience is an inspiration.</p>
+        <p>{site.tagline}</p>
+      </div>
+    </div>
+  </section>
+</Base>

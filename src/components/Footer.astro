@@ -1,0 +1,19 @@
+---
+import { site } from '../site';
+const year = new Date().getUTCFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <img src="/brand/quinn-lockup-horizontal-reversed.svg" alt={site.name} width="200" height="28" />
+      <p>{site.tagline} An independent nonprofit research center for animal welfare.</p>
+      <p>© {year} {site.fullName}.</p>
+    </div>
+    <ul aria-label="Contact">
+      <li><a href={`mailto:${site.email}`}>Email</a></li>
+      <li><a href={site.discord} rel="noopener">Discord</a></li>
+      <li><a href={site.github} rel="noopener">GitHub</a></li>
+      <li><a href="/feed.xml">RSS</a></li>
+    </ul>
+  </div>
+</footer>
